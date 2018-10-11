@@ -6,6 +6,7 @@
     <title></title>
     <script src="js/mui.min.js"></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="fonticon/iconfont.css" />
     <link href="css/header.css" rel="stylesheet" />
     <script type="text/javascript" charset="utf-8">
       	mui.init();
@@ -13,6 +14,48 @@
       		plus.navigator.setStatusBarStyle("light");
       		plus.navigator.setStatusBarBackground("#C9394A");
       	});
+      	
+      	var viewArray=[
+      		{pageId:"tz-chatlist.html",
+      		pageUrl:"tz-chatlist.html"
+      	},
+      	{pageId:"tz-contact.html",
+      		pageUrl:"tz-contact.html"
+      	},
+      	{pageId:"tz-discover.html",
+      		pageUrl:"tz-discover.html"
+      	},
+      	{pageId:"tz-personal.html",
+      		pageUrl:"tz-personal.html"
+      	}
+      	];
+      	var webSizeStype = {
+      		top:"44px",
+      		bottom:"50px"
+      	}
+      	mui.plusReady(function(){
+      		// 当前webview
+      		var indexWebView = plus.webview.currentWebview();
+      		// 将所有webview添加到当前webview的子页面
+      		for(var i=0;i<viewArray.length;i++){
+      			var webview = plus.webview.create(viewArray[i].pageUrl,viewArray[i].pageId,webSizeStype);
+      			webview.hide();
+      			indexWebView.append(webview);
+      		}
+      		// 默认显示第一个界面
+      		plus.webview.show(viewArray[0].pageId);
+      		
+      		// 绑定切换页面事件
+      		mui(".mui-bar-tab").on("tap","a",function(){
+      			var tabindex = this.getAttribute("tabindex");
+      			plus.webview.show(viewArray[tabindex].pageId,"fade-in",200);
+      			for(var i=0;i<viewArray.length;i++){
+      			if(i!=tabindex){
+      				plus.webview.hide(viewArray[i].pageId,"fade-out",200);	
+      			}
+      		}
+      		})
+      	})
     </script>
 </head>
 <body>
@@ -20,20 +63,20 @@
 	    <h1 class="mui-title title-color"><b>TZ Chat</b></h1>
 	</header>
 	<nav class="mui-bar mui-bar-tab">
-	    <a class="mui-tab-item mui-active">
-	        <span class="mui-icon mui-icon-chat"></span>
+	    <a class="mui-tab-item mui-active" tabindex="0">
+	        <span class="mui-icon iconfont icon-geren"></span>
 	        <span class="mui-tab-label">tz</span>
 	    </a>
-	    <a class="mui-tab-item">
-	        <span class="mui-icon mui-icon-phone"></span>
+	    <a class="mui-tab-item" tabindex="1">
+	        <span class="mui-icon iconfont icon-tongxunlu"></span>
 	        <span class="mui-tab-label">通讯录</span>
 	    </a>
-	    <a class="mui-tab-item">
-	        <span class="mui-icon mui-icon-search"></span>
+	    <a class="mui-tab-item" tabindex="2">
+	        <span class="mui-icon iconfont icon-faxian3"></span>
 	        <span class="mui-tab-label">发现</span>
 	    </a>
-	    <a class="mui-tab-item">
-	        <span class="mui-icon mui-icon-person"></span>
+	    <a class="mui-tab-item" tabindex="3">
+	        <span class="mui-icon iconfont icon-geren1"></span>
 	        <span class="mui-tab-label">我</span>
 	    </a>
 	</nav>

@@ -125,5 +125,41 @@
 				}
 			}
 		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"tz-chatlist.html"
+				],
+				"refer": [
+					"tz-personal.html",
+					"tz-contact.html",
+					"tz-discover.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"fonticon/demo.css",
+				"fonticon/demo_symbol.html",
+				"fonticon/iconfont.eot",
+				"fonticon/demo_fontclass.html",
+				"fonticon/demo_unicode.html",
+				"fonts/mui.ttf",
+				"css/mui.css",
+				"css/header.css",
+				"fonticon/iconfont.js",
+				"fonticon/iconfont.css",
+				"js/mui.min.js",
+				"tz-contcat.html",
+				"css/mui.min.css",
+				"fonticon/iconfont.woff",
+				"fonticon/iconfont.ttf",
+				"fonticon/iconfont.svg",
+				"js/mui.js"
+			]
+		}
 	}
 }
