@@ -9,5 +9,11 @@
 			"tz-contact.html",
 			"tz-discover.html"
 		]
+	},
+	"login.html": {
+		"refer": [
+			"login.html",
+			"index.html"
+		]
 	}
 }
