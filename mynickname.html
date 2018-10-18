@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/header.css" />
+		<style>
+			.mui-popover .mui-table-view .mui-table-view-cell a{
+				color:#404040;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav title">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <a id="save_nickname" class="mui-icon mui-icon-right-nav mui-pull-right" style="color: white;font-size: 14px;line-height: 25px;">
+		    	完成
+		    </a>
+		    <h1 class="mui-title title-color">昵称设置</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="mui-input-row">
+		    	<input type="text" id="nick_name_content" class="mui-input-speech mui-input-clear" placeholder="修改昵称" />
+		    </div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function(){
+				var user = app.getGloableUserInfo();
+				var save_nickname = document.getElementById("save_nickname");
+				var nickname = document.getElementById("nick_name_content");
+				// 加载昵称
+				nickname.value=user.nickname;				
+				save_nickname.addEventListener("tap",function(){
+					
+					if(app.isNull(nickname.value)){
+						app.showToast("请输入昵称","error_2");
+						nickname.focus();
+						return false;
+					}else if(nickname.value.length<1){
+						app.showToast("昵称不能低于1位","error_2")
+						nickname.focus();
+						return false;
+					}else if(nickname.value.length>8){
+						app.showToast("昵称不能超过8位","error_2")
+						nickname.focus();
+						return false;
+					}
+					
+					mui.ajax(app.serverUrl+"/user/changeNickname",{
+							data:{
+								userId:user.id,
+								nickname:nickname.value,
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								nickname.blur();
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								if(data.status==200){
+									app.setGloableUserInfo(data.data);
+//									refreshUserInfo();
+									mui.openWindow("tz-personal.html","tz-personal.html");
+								}else{
+									app.showToast(data.msg,"error_2");
+								}
+							}
+					});
+				})
+					
+			});
+			
+		</script>
+	</body>
+
+</html>
