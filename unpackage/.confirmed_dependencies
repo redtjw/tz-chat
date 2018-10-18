@@ -15,5 +15,16 @@
 			"login.html",
 			"index.html"
 		]
+	},
+	"tz-personal.html": {
+		"refer": [
+			"myface.html",
+			"mynickname.html"
+		]
+	},
+	"myface.html": {
+		"refer": [
+			"plugin/v3.1.6/myface-uploader.html"
+		]
 	}
 }

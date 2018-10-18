@@ -146,6 +146,21 @@
 					"index.html"
 				],
 				"priority": 0
+			},
+			"tz-personal.html": {
+				"resources": [],
+				"refer": [
+					"myface.html",
+					"mynickname.html"
+				],
+				"priority": 0
+			},
+			"myface.html": {
+				"resources": [],
+				"refer": [
+					"plugin/v3.1.6/myface-uploader.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

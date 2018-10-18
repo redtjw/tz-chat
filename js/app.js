@@ -1,8 +1,11 @@
 window.app={
 	// wifi
-	serverUrl:'http://192.168.0.102:8080',
+//	serverUrl:'http://192.168.0.102:8080',
 	// 有线
-	// serverUrl:'http://192.168.0.106:8080',
+	 serverUrl:'http://192.168.0.106:8080',
+	// 图片服务器
+	serverImgUrl:'http://192.168.246.128:88/tchat/',
+	
 	isNotNull:function(str){
 		if(str!=null && str!='' && str!=undefined){
 			return true;

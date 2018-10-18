@@ -31,14 +31,23 @@
       	];
       	var webSizeStype = {
       		top:"44px",
-      		bottom:"50px"
+      		bottom:"50px"}
+      	function closeWindow(){
+      		plus.runtime.quit();
       	}
-      	mui.plusReady(function(){
-      		mui.back = function(){
-      			return false;
-      		}
-      		
-      		// 当前webview
+			mui.plusReady(function() {
+			
+			mui.back = function() {
+					var btn = ["确定", "取消"];
+					mui.confirm('确认退出?', '', btn, function(e) {
+								if(e.index == 0) {
+									//执行mui封装好的窗口关闭逻辑；
+									closeWindow();
+								}
+								return false;
+					});
+			}
+			// 当前webview
       		var indexWebView = plus.webview.currentWebview();
       		// 将所有webview添加到当前webview的子页面
       		for(var i=0;i<viewArray.length;i++){
