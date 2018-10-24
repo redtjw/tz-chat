@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/header.css" />
+		<script type="text/javascript" src="js/app.js" ></script>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav title">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left title-color"></a>
+		    <!--<a id="save_qrcode" class="mui-icon mui-icon-right-nav mui-pull-right" >
+		    	...
+		    </a>-->
+		    <h1 class="mui-title title-color">二维码</h1>
+		</header><div class="mui-content" style="padding: 80px 50px 0 50px;">
+		    <div class="mui-card" style="width: 300px;">
+	<!--页眉，放置标题-->
+			<div class="mui-card-header mui-card-media">
+				<img id="qr_code_faceimage" src="image/qrcode.png" style="height: 50px; width: 50px;" />
+				<div class="mui-media-body" style="line-height: 30px;">
+					<span id="qr_code_nickname"></span>
+					<p id="qr_code_username"></p>
+				</div>
+			</div>
+			<!--内容区-->
+			<div class="mui-card-content">
+				<img id="qr_code_image" />
+			</div>
+			<div class="mui-card-footer">扫一扫加我为好友</div>
+		</div>
+		</div>
+		<div id="sheet_myface" class="mui-popover mui-popover-bottom mui-popover-action" style="padding-left: ;">
+		    <!-- 可选择菜单 -->
+		    <ul class="mui-table-view">
+		      <li class="mui-table-view-cell">
+		        <a id="link_savePhoto" href="#">保存二维码</a>
+		      </li>
+		    </ul>
+		    <!-- 取消菜单 -->
+		    <ul class="mui-table-view">
+		      <li class="mui-table-view-cell">
+		        <a href="#sheet_myface"><b>取消</b></a>
+		      </li>
+		    </ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function(){
+				var user = app.getGloableUserInfo();
+				var qr_code_nickname = document.getElementById("qr_code_nickname");
+				qr_code_nickname.innerHTML=user.nickname;
+				var qr_code_username =document.getElementById("qr_code_username");
+				qr_code_username.innerHTML=user.username;
+				var qr_code_faceimage =document.getElementById("qr_code_faceimage");
+				qr_code_faceimage.src=app.serverImgUrl+user.faceImage;
+				var qr_code_image=document.getElementById("qr_code_image");
+				qr_code_image.src=app.serverImgUrl+user.qrcode;
+				
+				qr_code_image.addEventListener("tap",function(){
+					//传入toggle参数，用户无需关心当前是显示还是隐藏状态，mui会自动识别处理；
+					mui('#sheet_myface').popover('toggle');
+				});
+				// 保存照片
+					var link_savePhoto = document.getElementById("link_savePhoto");
+					link_savePhoto.addEventListener("tap",function(){
+						plus.nativeUI.showWaiting("下载中");
+						var userinfo = app.getGloableUserInfo();
+						var qrcode = userinfo.qrcode;
+						var task = plus.downloader.createDownload(app.serverImgUrl+qrcode,{},
+							function(downloadFile,status){
+								plus.nativeUI.closeWaiting();
+								if(status==200){
+									var tempFile = downloadFile.filename;
+									// 通过相册保存
+									plus.gallery.save(tempFile,function(){
+										app.showToast("保存成功","success_2");
+										mui('#sheet_myface').popover('toggle');
+									})
+								}else{
+									app.showToast("下载错误");
+									console.log("下载错误")
+								}
+							});
+							
+							task.start();// 启动下载任务
+					});
+			})
+		</script>
+	</body>
+
+</html>

@@ -17,14 +17,14 @@
 	<body>
 		<header class="mui-bar mui-bar-nav title">
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
-		    <a id="save_nickname" class="mui-icon mui-icon-right-nav mui-pull-right" style="color: white;font-size: 14px;line-height: 25px;">
-		    	完成
+		    <a id="a_search" class="mui-icon mui-icon-right-nav mui-pull-right" style="color: white;font-size: 14px;line-height: 25px;">
+		    	搜索
 		    </a>
-		    <h1 class="mui-title title-color">昵称设置</h1>
+		    <h1 class="mui-title title-color">添加好友</h1>
 		</header>
 		<div class="mui-content">
 		    <div class="mui-input-row">
-		    	<input type="text" id="nick_name_content" class="mui-input-speech mui-input-clear" placeholder="修改昵称" />
+		    	<input type="text" id="friend_name_content" class="mui-input-speech mui-input-clear" placeholder="搜索好友用户名" />
 		    </div>
 		</div>
 		<script src="js/mui.min.js"></script>
@@ -33,45 +33,43 @@
 			mui.init()
 			mui.plusReady(function(){
 				var user = app.getGloableUserInfo();
-				var save_nickname = document.getElementById("save_nickname");
-				var nickname = document.getElementById("nick_name_content");
-				// 加载昵称
-				nickname.value=user.nickname;				
-				save_nickname.addEventListener("tap",function(){
-					
-					if(app.isNull(nickname.value)){
-						app.showToast("请输入昵称","error_2");
+				var friend_name_content = document.getElementById("friend_name_content");
+				var a_search = document.getElementById("a_search");
+				a_search.addEventListener("tap",function(){
+					if(app.isNull(friend_name_content.value)){
+						app.showToast("请输入好友用户名","error_2");
 						nickname.focus();
 						return false;
-					}else if(nickname.value.length<1){
-						app.showToast("昵称不能低于1位","error_2")
+					}else if(friend_name_content.value.length<1){
+						app.showToast("用户名不能低于1位","error_2")
 						nickname.focus();
 						return false;
-					}else if(nickname.value.length>8){
-						app.showToast("昵称不能超过8位","error_2")
+					}else if(friend_name_content.value.length>8){
+						app.showToast("用户名不能超过8位","error_2")
 						nickname.focus();
 						return false;
 					}
-					plus.nativeUI.showWaiting("请稍候..");
-					mui.ajax(app.serverUrl+"/user/changeNickname",{
+					plus.nativeUI.showWaiting("请稍候...");
+					mui.ajax(app.serverUrl+"/user/searchFriend?userId="+user.id+"&friendUserName="+
+					friend_name_content.value,{
 							data:{
-								userId:user.id,
-								nickname:nickname.value,
 							},
 							dataType:'json',//服务器返回json格式数据
 							type:'post',//HTTP请求类型
 							timeout:10000,//超时时间设置为10秒；
 							headers:{'Content-Type':'application/json'},	              
 							success:function(data){
-								nickname.blur();
 								plus.nativeUI.closeWaiting();
 								//服务器返回响应，根据响应结果，分析是否登录成功；
 								if(data.status==200){
-									app.setGloableUserInfo(data.data);
-								// 触发另外一个webview的自定义事件，可以使用 mui.fire()
-									var meWebview = plus.webview.getWebviewById("tz-personal.html");
-									mui.fire(meWebview, "refresh");
-									mui.openWindow("index.html","index.html");
+									mui.openWindow({
+										url:"searchFriendsResult.html",
+										id:"searchFriendsResult.html",
+										styles:{},
+										extras:{
+											willBeFriend:data.data
+										}
+									})
 								}else{
 									app.showToast(data.msg,"error_2");
 								}

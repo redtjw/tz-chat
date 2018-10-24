@@ -37,6 +37,9 @@ window.app={
 	getGloableUserInfo:function(){
 		var user = plus.storage.getItem("userInfo");
 		return JSON.parse(user);
-	}
+	},
 	
+	userLogout:function(){
+		plus.storage.removeItem("userInfo");
+	}
 }

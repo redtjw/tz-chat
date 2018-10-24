@@ -19,12 +19,24 @@
 	"tz-personal.html": {
 		"refer": [
 			"myface.html",
-			"mynickname.html"
+			"mynickname.html",
+			"qrcode.html",
+			"login.html"
 		]
 	},
 	"myface.html": {
 		"refer": [
 			"plugin/v3.1.6/myface-uploader.html"
+		]
+	},
+	"tz-discover.html": {
+		"refer": [
+			"searchFriend.html"
+		]
+	},
+	"searchFriend.html": {
+		"refer": [
+			"searchFriendsResult.html"
 		]
 	}
 }

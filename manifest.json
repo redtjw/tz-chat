@@ -151,7 +151,9 @@
 				"resources": [],
 				"refer": [
 					"myface.html",
-					"mynickname.html"
+					"mynickname.html",
+					"qrcode.html",
+					"login.html"
 				],
 				"priority": 0
 			},
@@ -159,6 +161,20 @@
 				"resources": [],
 				"refer": [
 					"plugin/v3.1.6/myface-uploader.html"
+				],
+				"priority": 0
+			},
+			"tz-discover.html": {
+				"resources": [],
+				"refer": [
+					"searchFriend.html"
+				],
+				"priority": 0
+			},
+			"searchFriend.html": {
+				"resources": [],
+				"refer": [
+					"searchFriendsResult.html"
 				],
 				"priority": 0
 			}
